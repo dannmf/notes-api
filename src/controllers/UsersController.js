@@ -1,10 +1,16 @@
-const AppError = require
+
+const AppError = require("../utils/AppError");
 
 class UsersController {
 
     createUser(request, response){
         const { name, email, password } = request.body;
-        response.json({ name, email, password });
+
+        if(!name){
+            throw new AppError("Nome é obrigatório!");
+        }
+
+        response.status(201).json({ name, email, password });
     }
 }
 
