@@ -3,6 +3,12 @@ const AppError = require("../utils/AppError");
 const sqliteConnection = require("../database/sqlite");
 class UsersController {
 
+    async index(request, response){
+        const database = await sqliteConnection();
+        const users = await database.all("SELECT * FROM users");
+        return response.json(users);
+    }
+
     async createUser(request, response){
         const { name, email, password } = request.body;
         const database = await sqliteConnection();
@@ -23,10 +29,10 @@ class UsersController {
     
     async update(request, response){
         const  {name, email, password, old_password} =  request.body;
-        const { id } = request.params;
+        const user_id = request.user.id;
 
         const database = await sqliteConnection();
-        const user = await database.get("SELECT * FROM users WHERE id = (?)" , [id]);
+        const user = await database.get("SELECT * FROM users WHERE id = (?)" , [user_id]);
 
         if(!user){
             throw new AppError("Usuário não encontrado")
@@ -62,7 +68,7 @@ class UsersController {
         password = ?,
         updated_at = DATETIME('now')
         WHERE id = ?`, 
-        [user.name, user.email, user.password, id]
+        [user.name, user.email, user.password, user_id]
         );
 
         return response.json();

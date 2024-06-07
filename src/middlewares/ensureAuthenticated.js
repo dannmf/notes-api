@@ -1,5 +1,5 @@
 const { verify } = require('jsonwebtoken');
-const { AppError } = require('../utils/AppError');
+const AppError = require('../utils/AppError');
 const { authConfig } = require('../config/auth');
 
 function ensureAuthenticated(request, response, next) {
