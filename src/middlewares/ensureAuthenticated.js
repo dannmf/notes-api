@@ -1,6 +1,6 @@
 const { verify } = require('jsonwebtoken');
 const AppError = require('../utils/AppError');
-const { authConfig } = require('../config/auth');
+const  authConfig  = require('../config/auth');
 
 function ensureAuthenticated(request, response, next) {
     const authHeader = request.headers.authorization;
@@ -16,7 +16,7 @@ function ensureAuthenticated(request, response, next) {
 
         request.user = {
             id: Number(user_id)
-        }
+        };
 
         return next();
 
